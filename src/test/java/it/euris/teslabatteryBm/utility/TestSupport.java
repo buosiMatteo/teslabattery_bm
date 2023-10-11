@@ -41,4 +41,15 @@ public class TestSupport {
         .build();
   }
 
+  public static Componente getComponente(Long id) {
+    return Componente
+        .builder()
+        .id(id)
+        .nome("Test Componente")
+        .prezzo(100.00)
+        .fornitore("Test Fornitore")
+        .pericoloso(false)
+        .build();
+  }
+
 }
