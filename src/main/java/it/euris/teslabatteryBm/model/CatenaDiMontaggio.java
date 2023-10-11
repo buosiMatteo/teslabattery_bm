@@ -1,13 +1,15 @@
 package it.euris.teslabatteryBm.model;
 
-import it.euris.teslabatteryBm.dto.archetype.Dto;
+import it.euris.teslabatteryBm.dto.CatenaDiMontaggioDTO;
 import it.euris.teslabatteryBm.dto.archetype.Model;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
-import java.sql.Timestamp;
 import java.time.LocalTime;
-import java.util.List;
+
+import static it.euris.teslabatteryBm.utility.DataConversionUnit.*;
 
 @Builder
 @Getter
@@ -16,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "catena_di_montaggio")
+@SQLDelete(sql = "UPDATE catena_di_montaggio SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class CatenaDiMontaggio implements Model {
 
   @Id
@@ -42,7 +46,15 @@ public class CatenaDiMontaggio implements Model {
   private Robot robot;
 
   @Override
-  public Dto toDto() {
-    return null;
+  public CatenaDiMontaggioDTO toDto() {
+    return CatenaDiMontaggioDTO
+        .builder()
+        .id(numberToString(id))
+        .nome(nome)
+        .tempoDiCompletamento(localTimeToString(tempoDiCompletamento))
+        .deleted(booleanToString(deleted))
+        .idFormula(numberToString(formula.getId()))
+        .idRobot(numberToString(robot.getId()))
+        .build();
   }
 }

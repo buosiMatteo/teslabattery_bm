@@ -1,11 +1,16 @@
 package it.euris.teslabatteryBm.model;
 
+import it.euris.teslabatteryBm.dto.FormulaDTO;
 import it.euris.teslabatteryBm.dto.archetype.Dto;
 import it.euris.teslabatteryBm.dto.archetype.Model;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
+
+import static it.euris.teslabatteryBm.utility.DataConversionUnit.*;
 
 @Builder
 @Getter
@@ -14,6 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "formula")
+@SQLDelete(sql = "UPDATE formula SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Formula implements Model {
 
   @Id
@@ -33,7 +40,13 @@ public class Formula implements Model {
 
 
   @Override
-  public Dto toDto() {
-    return null;
+  public FormulaDTO toDto() {
+    return FormulaDTO
+        .builder()
+        .id(numberToString(id))
+        .dataCreazione(localDateTimeToString(dataCreazione))
+        .numeroUtilizzi(numberToString(numeroUtilizzi))
+        .deleted(booleanToString(deleted))
+        .build();
   }
 }

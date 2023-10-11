@@ -3,6 +3,7 @@ package it.euris.teslabatteryBm.utility;
 import it.euris.teslabatteryBm.enums.StatusCicloProduttivo;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class DataConversionUnit {
 
@@ -30,6 +31,14 @@ public class DataConversionUnit {
   }
 
   public static String localDateTimeToString(LocalDateTime value) {
+    return value == null ? null : value.toString();
+  }
+
+  public static LocalTime stringToLocalTime(String value) {
+    return value == null ? null : LocalTime.parse(value);
+  }
+
+  public static String localTimeToString(LocalTime value) {
     return value == null ? null : value.toString();
   }
 

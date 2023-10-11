@@ -1,9 +1,15 @@
 package it.euris.teslabatteryBm.model;
 
+import it.euris.teslabatteryBm.dto.BatteriaDTO;
 import it.euris.teslabatteryBm.dto.archetype.Dto;
 import it.euris.teslabatteryBm.dto.archetype.Model;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import static it.euris.teslabatteryBm.utility.DataConversionUnit.booleanToString;
+import static it.euris.teslabatteryBm.utility.DataConversionUnit.numberToString;
 
 @Builder
 @Getter
@@ -12,6 +18,8 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "batteria")
+@SQLDelete(sql = "UPDATE batteria SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Batteria implements Model {
 
   @Id
@@ -35,7 +43,14 @@ public class Batteria implements Model {
 
 
   @Override
-  public Dto toDto() {
-    return null;
+  public BatteriaDTO toDto() {
+    return BatteriaDTO
+        .builder()
+        .id(numberToString(id))
+        .kwH(numberToString(kwH))
+        .peso(numberToString(peso))
+        .deleted(booleanToString(deleted))
+        .idFormula(numberToString(formula.getId()))
+        .build();
   }
 }
