@@ -18,6 +18,8 @@ import static it.euris.teslabatteryBm.utility.DataConversionUnit.*;
 @AllArgsConstructor
 public class ComponenteDTO implements Dto {
   private String id;
+
+  private String nome;
   
   private String prezzo;
   
@@ -32,6 +34,7 @@ public class ComponenteDTO implements Dto {
     return Componente
         .builder()
         .id(stringToLong(id))
+        .nome(nome)
         .prezzo(stringToDouble(prezzo))
         .fornitore(fornitore)
         .pericoloso(stringToBoolean(pericoloso))

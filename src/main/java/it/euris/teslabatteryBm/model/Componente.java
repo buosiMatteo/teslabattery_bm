@@ -29,6 +29,9 @@ public class Componente implements Model {
   @Column(name = "id")
   private Long id;
 
+  @Column(name = "nome")
+  private String nome;
+
   @Column(name = "prezzo")
   private Double prezzo;
 
@@ -48,6 +51,7 @@ public class Componente implements Model {
     return ComponenteDTO
         .builder()
         .id(numberToString(id))
+        .nome(nome)
         .prezzo(numberToString(prezzo))
         .fornitore(fornitore)
         .pericoloso(booleanToString(pericoloso))
